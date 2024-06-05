@@ -10,6 +10,7 @@ if (-not (Get-Module -ListAvailable -Name Terminal-Icons)) {
     Install-Module -Name Terminal-Icons -Scope CurrentUser -Force -SkipPublisherCheck
 }
 Import-Module -Name Terminal-Icons
+
 $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 if (Test-Path($ChocolateyProfile)) {
     Import-Module "$ChocolateyProfile"
@@ -99,7 +100,9 @@ Set-Alias -Name vim -Value $EDITOR
 function Edit-Profile {
     vim $PROFILE.CurrentUserAllHosts
 }
+
 function touch($file) { "" | Out-File $file -Encoding ASCII }
+
 function ff($name) {
     Get-ChildItem -recurse -filter "*${name}*" -ErrorAction SilentlyContinue | ForEach-Object {
         Write-Output "$($_.directory)\$($_)"
@@ -237,6 +240,7 @@ Set-PSReadLineOption -EditMode Emacs
 
 ## Final Line to set prompt
 oh-my-posh init pwsh --config https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/catppuccin_mocha.omp.json | Invoke-Expression
+
 if (Get-Command zoxide -ErrorAction SilentlyContinue) {
     Invoke-Expression (& { (zoxide init powershell | Out-String) })
 } else {
